@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package user;
+
+option go_package="github.com/xhyonline/grpc-example/gen/user";
+
+import "user/phone.proto";
+
+import "basic/basic.proto";
+
+
+// User 用户基本信息
+message User {
+    // 用户唯一 ID
+    int64 UserID=1;
+    // 用户的姓名
+    string Name =2;
+    // 用户年龄
+    int64 Age =3;
+    // 用户的手机号,由于用户有多个手机号码,因此这里存个数组
+    repeated Phone UserPhone =4;
+}
+
+// RepetedUser 多个用户
+message RepetedUser {
+    repeated User users= 1;
+}
+
+// AddResponse 返回结果
+message AddResponse{
+    // 返回自增 ID
+    int64 ID =1;
+    // 返回是否成功
+    bool Success =2;
+}
+
+// UserServer 用户服务
+service UserServer {
+    // AddUser 新增一个用户
+    rpc AddUser(User) returns (AddResponse);
+    // RemoveUserByID 根据 UID 删除一个用户,返回是否删除成功
+    // 请注意这里有一个深坑, service rpc 方法传入与返回的必须是一个 message 类型,因此下面这个创建的方法会报错
+    // RemoveUserByID(int64) returns (bool) 因此如果只返回一个基本类型,请自行定义
+    rpc RemoveUserByID(basic.Int) returns(basic.Bool);
+    // GetRandomUser 随机获取一个用户的基本信息,由于参数不能传空,所以我们使用空 message 类型
+    rpc GetRandomUser(basic.Empty) returns (User);
+    // GetAllUser 获取所有用户信息
+    rpc GetAllUser(basic.Empty) returns (RepetedUser);
+    // GetUserByID 根据 UID 获取一个用户
+    rpc GetUserByID(basic.Int) returns(User);
+}

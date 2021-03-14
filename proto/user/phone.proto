@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package user;
+
+option go_package="github.com/xhyonline/grpc-example/gen/user";
+
+
+// Phone 手机
+message Phone {
+    // 手机号码
+    string PhoneNumber =1;
+    // 手机属性
+    enum PhoneTypeEnum {
+        Home = 0;   // 家庭号码
+        Work = 1;  // 工作号码
+    }
+    PhoneTypeEnum PhoneType=2;
+}
+

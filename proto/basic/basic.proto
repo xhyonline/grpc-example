@@ -1,0 +1,28 @@
+// basic 定义了各种基础类型
+syntax = "proto3";
+
+package basic;
+
+option go_package="github.com/xhyonline/grpc-example/gen/basic";
+
+// String 基本字符串类型
+message String {
+    string String =1;
+}
+
+// Int 基本整型
+message Int {
+    int64 Int=1;
+}
+
+
+// Bool 基本布尔类型
+message Bool {
+    bool Bool=1;
+}
+
+// Empty 基本空类型
+message Empty {
+
+}
+
